@@ -18,8 +18,16 @@ class DeviceController extends Controller
 
     public function index()
     {
-        $devices = MikroTikDevice::withCount('hotspotUsers')->get();
+        $devices = MikroTikDevice::with('license')->get();
+
         return view('admin.mikrotik.devices', compact('devices'));
+    }
+
+    public function show(MikroTikDevice $device)
+    {
+        $device->load('license');
+
+        return view('admin.mikrotik.show', compact('device'));
     }
 
     public function store(Request $request)
@@ -33,6 +41,7 @@ class DeviceController extends Controller
         ]);
 
         $this->deviceService->registerDevice($data);
+
         return redirect()->back()->with('success', 'تم إضافة جهاز الميكروتك وفحص الاتصال بنجاح!');
     }
 }
