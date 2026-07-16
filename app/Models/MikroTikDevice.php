@@ -11,9 +11,7 @@ class MikroTikDevice extends Model
 
     protected $table = 'mikrotik_devices';
 
-
     protected $fillable = [
-
         'name',
         'serial_number',
         'ip_address',
@@ -28,16 +26,15 @@ class MikroTikDevice extends Model
         'status',
         'last_seen',
         'notes',
-
     ];
-
 
     protected $hidden = [
-
         'password',
-
     ];
 
+    protected $casts = [
+        'last_seen' => 'datetime',
+    ];
 
     public function license()
     {
