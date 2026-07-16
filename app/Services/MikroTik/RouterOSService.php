@@ -32,6 +32,25 @@ class RouterOSService
         }
     }
 
+    public function getRouterInfo(array $device): array
+    {
+        try {
+            $client = $this->client($device);
+
+            $resource = $client->query('/system/resource/print')->read()[0] ?? [];
+            $license = $client->query('/system/license/print')->read()[0] ?? [];
+
+            return [
+                'serial_number' => $resource['serial-number'] ?? null,
+                'router_model' => $resource['board-name'] ?? null,
+                'router_os' => $resource['version'] ?? null,
+                'license_level' => $license['level'] ?? null,
+            ];
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
     public function isConnected(array $device): bool
     {
         try {
