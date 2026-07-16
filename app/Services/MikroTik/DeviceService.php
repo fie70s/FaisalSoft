@@ -19,7 +19,7 @@ class DeviceService
             throw new Exception('Unable to connect to MikroTik device.');
         }
 
-        $system = $this->routerOSService->getSystemIdentity($data);
+        $info = $this->routerOSService->getRouterInfo($data);
 
         return MikroTikDevice::create([
             'name' => $data['title'],
@@ -27,8 +27,10 @@ class DeviceService
             'api_port' => $data['port'] ?? 8728,
             'username' => $data['username'],
             'password' => Crypt::encryptString($data['password']),
-            'router_model' => $system['board-name'] ?? null,
-            'router_os' => $system['version'] ?? null,
+            'serial_number' => $info['serial_number'] ?? null,
+            'router_model' => $info['router_model'] ?? null,
+            'router_os' => $info['router_os'] ?? null,
+            'license_level' => $info['license_level'] ?? null,
             'status' => 'online',
             'last_seen' => now(),
         ]);
