@@ -10,4 +10,5 @@ Route::get('/', function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/mikrotik/devices', [DeviceController::class, 'index'])->name('mikrotik.devices');
     Route::post('/mikrotik/devices', [DeviceController::class, 'store'])->name('mikrotik.devices.store');
+    Route::get('/mikrotik/devices/{device}', [DeviceController::class, 'show'])->name('mikrotik.devices.show');
 });
